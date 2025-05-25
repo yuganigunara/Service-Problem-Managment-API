@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TMF656 Dashboard</title>
+</head>
+<body>
+    <h2>Service Problem Management</h2>
+    <button onclick="loadProblems()">Load Problems</button>
+    <pre id="result">Waiting for response...</pre>
+
+    <script>
+        function loadProblems() {
+            console.log("Fetching data...");
+            fetch('serviceProblem.php')
+                .then(res => {
+                    console.log("Response status:", res.status);
+                    if (!res.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log("Received data:", data);
+                    document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(err => {
+                    console.error("Fetch error:", err);
+                    document.getElementById('result').innerText = "Error: " + err.message;
+                });
+        }
+    </script>
+</body>
+</html>
